@@ -37,6 +37,20 @@ io.on('connection', (socket) => {
     });
 });
 function runWorker(number, socketId) {
+    try {
+        number = parseInt(number);
+    } catch {
+        io.to(socketId).emit('receive_number', {
+            error: 'please use number',
+        });
+        return;
+    }
+    if (number > LIMIT_NUMBER) {
+        io.to(socketId).emit('receive_number', {
+            error: `Cannot process number bigger ${LIMIT_NUMBER} - it will cost a lot of time`,
+        });
+        return;
+    }
     const worker = new Worker('./worker.js', { workerData: number });
     worker.on('message', (result) => {
         io.to(socketId).emit('receive_number', { value: result });
