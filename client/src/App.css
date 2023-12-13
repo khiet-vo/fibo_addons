@@ -1,5 +1,17 @@
 .title {
-  font-size: medium;
-  color: #84ba64;
-  padding-left: 50px;
+    font-size: medium;
+    color: #84ba64;
+    padding-left: 50px;
+}
+.error {
+    color: red;
+}
+.formWrapper {
+    padding-left: 50px
+}
+.groupInput {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding-bottom: 10px;
 }
