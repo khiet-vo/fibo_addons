@@ -1,0 +1,22 @@
+{
+  "name": "fibo_addons",
+  "version": "1.0.0",
+  "description": "Fibo addons for Nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khiet-vo/fibo_addons.git"
+  },
+  "keywords": [
+    "fibo"
+  ],
+  "author": "@khiet-vo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khiet-vo/fibo_addons/issues"
+  },
+  "homepage": "https://github.com/khiet-vo/fibo_addons#readme"
+}
