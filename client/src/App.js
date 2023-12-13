@@ -1,11 +1,20 @@
-import './App.css';
+import { useEffect } from 'react';
 import io from 'socket.io-client';
+import './App.css';
+
 const hostWs = 'http://localhost:3001/';
 const LIMIT_NUMBER = 100_000;
 
 const socket = io.connect(hostWs);
 
 function App() {
+    useEffect(() => {
+        socket.on('receive_number', (data) => {
+            console.log('🚀 ~ file: App.js:11 ~ socket.on ~ data:', data);
+        });
+        return () => socket.off('receive_number');
+    }, [socket]);
+
     function validateInput(input) {
         try {
             input = parseInt(input);
