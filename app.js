@@ -32,5 +32,6 @@ io.on('connection', (socket) => {
     console.log('🚀 ~ file: app.js:32 ~ io.on ~ socket.id:', socket.id);
     socket.on('sendNumber', (data) => {
         console.log('🚀 ~ file: app.js:33 ~ socket.on ~ data:', data);
+        io.to(socket.id).emit('receive_number', { value: 'got it!!' });
     });
 });
