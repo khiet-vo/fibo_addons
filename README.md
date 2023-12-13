@@ -51,13 +51,6 @@ This project only tested on Linux - Ubuntu@22.04
 ./install.sh
 ```
 
--   Go to folder client and install package for client.
-
-```bash
-cd client
-npm install
-```
-
 ## How to run
 
 Build version:
