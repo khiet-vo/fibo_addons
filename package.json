@@ -6,21 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-lib": "node-gyp rebuild",
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/khiet-vo/fibo_addons.git"
+    "start": "node app.js",
+    "stop-forever": "forever stopall",
+    "start-forever": "forever start app.js -m 5 -l server.log"
   },
   "keywords": [
     "fibo"
   ],
   "author": "@khiet-vo",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/khiet-vo/fibo_addons/issues"
-  },
-  "homepage": "https://github.com/khiet-vo/fibo_addons#readme",
   "dependencies": {
     "bindings": "^1.5.0",
     "cors": "^2.8.5",
@@ -28,6 +22,7 @@
     "nan": "^2.18.0",
     "node-addon-api": "^7.0.0",
     "node-gyp": "^10.0.1",
+    "path": "^0.12.7",
     "socket.io": "^4.7.2"
   }
 }
