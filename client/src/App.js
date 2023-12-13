@@ -10,26 +10,27 @@ const socket = io.connect(hostWs);
 
 function App() {
     const [errorConnect, setErrorConnect] = useState();
+    const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState();
     const [strNumbers, setStrNumber] = useState('');
 
     useEffect(() => {
         socket.on('receive_number', (data) => {
-            setStrNumber((strNumbers) => strNumbers + '\n' + data.value);
+            if (data.isFinished) {
+                setLoading(false);
+            } else if (data.error) {
+                setError(data.error);
+            } else {
+                setStrNumber((strNumbers) => strNumbers + '\n' + data.value);
+            }
         });
         return () => socket.off('receive_number');
     }, []);
     useEffect(() => {
-        console.log(
-            '🚀 ~ file: App.js:23 ~ socket.on ~ connect_error useEffect'
-        );
-
         socket.once('connect_error', () => {
-            console.log('🚀 ~ file: App.js:23 ~ socket.on ~ connect_error');
             setErrorConnect('Cannot connect to host');
         });
         socket.once('connect', function () {
-            console.log('🚀 ~ file: App.js:23 ~ socket.on ~ connect');
             setErrorConnect();
         });
         return () => {
@@ -58,12 +59,14 @@ function App() {
         const value = e.target.input.value;
         if (validateInput(value)) {
             setError();
+            setLoading(true);
+            setStrNumber('');
             socket.emit('sendNumber', { value });
         } else {
             setError(MSG_ERR_INPUT);
         }
     }
-    const isDisabled = !!errorConnect || !!error;
+    const isDisabled = !!errorConnect || !!error || isLoading;
     return (
         <div className="App">
             <h1 className="title">Hello React ft. Million</h1>
@@ -85,12 +88,14 @@ function App() {
                             type="number"
                             name="input"
                             onChange={onChangeInput}
+                            disabled={isLoading}
                         />
                     </div>
                     <button type="submit" disabled={isDisabled}>
                         Send Number
                     </button>
                 </form>
+                {isLoading && <p className="renderFibo">Loading...</p>}
                 <p className="renderFibo">{strNumbers}</p>
             </div>
         </div>
