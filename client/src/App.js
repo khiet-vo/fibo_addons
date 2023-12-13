@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './App.css';
 
-const hostWs = 'http://localhost:3001/';
-const LIMIT_NUMBER = 100_000;
+const hostWs = process.env.HOSTWS || 'http://localhost:3001/';
+const LIMIT_NUMBER = process.env.LIMIT_NUMBER || 1_000_000;
 const MSG_ERR_INPUT =
     'Input should be an Int, and start from 0 and less than ' + LIMIT_NUMBER;
 const socket = io.connect(hostWs);

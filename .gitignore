@@ -132,3 +132,6 @@ dist
 build/
 public/
 server.log
+
+
+!public/client
