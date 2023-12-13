@@ -36,9 +36,6 @@ install_boost_mac() {
 # Detect the operating system and call the appropriate function
 OS="$(uname)"
 
-install_npm_backend
-install_npm_client
-
 if [ "$OS" == "Linux" ]; then
     install_boost_linux
     sudo apt-get install libgmp3-dev
@@ -49,3 +46,6 @@ if [ "$OS" == "Linux" ]; then
 else
     echo "Unsupported operating system: $OS"
 fi
+
+install_npm_backend
+install_npm_client
