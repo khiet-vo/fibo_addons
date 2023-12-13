@@ -1,9 +1,12 @@
 const express = require('express');
 const cors = require('cors');
-const port = 3001;
 const bodyParser = require('body-parser');
 const { Server } = require('socket.io');
+const { Worker } = require('worker_threads');
+
 const clientURL = 'http://localhost:3000';
+const port = 3001;
+const LIMIT_NUMBER = process.env.LIMIT_NUMBER || 100000;
 
 const app = express();
 
@@ -29,9 +32,13 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log('🚀 ~ file: app.js:32 ~ io.on ~ socket.id:', socket.id);
     socket.on('sendNumber', (data) => {
-        console.log('🚀 ~ file: app.js:33 ~ socket.on ~ data:', data);
-        io.to(socket.id).emit('receive_number', { value: 'got it!!' });
+        runWorker(data.value, socket.id);
     });
 });
+function runWorker(number, socketId) {
+    const worker = new Worker('./worker.js', { workerData: number });
+    worker.on('message', (result) => {
+        io.to(socketId).emit('receive_number', { value: result });
+    });
+}
