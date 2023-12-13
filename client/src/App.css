@@ -7,7 +7,11 @@
     color: red;
 }
 .formWrapper {
-    padding-left: 50px
+    padding-left: 50px;
+}
+.renderFibo {
+    white-space: 'pre-line';
+    padding-left: 30px;
 }
 .groupInput {
     display: flex;

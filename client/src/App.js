@@ -11,9 +11,11 @@ const socket = io.connect(hostWs);
 function App() {
     const [errorConnect, setErrorConnect] = useState();
     const [error, setError] = useState();
+    const [strNumbers, setStrNumber] = useState('');
+
     useEffect(() => {
         socket.on('receive_number', (data) => {
-            console.log('🚀 ~ file: App.js:11 ~ socket.on ~ data:', data);
+            setStrNumber((strNumbers) => strNumbers + '\n' + data.value);
         });
         return () => socket.off('receive_number');
     }, []);
@@ -89,6 +91,7 @@ function App() {
                         Send Number
                     </button>
                 </form>
+                <p className="renderFibo">{strNumbers}</p>
             </div>
         </div>
     );
