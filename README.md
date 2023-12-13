@@ -9,12 +9,14 @@ This project only tested on Linux - Ubuntu@22.04
 -   C++@11.4.0
 -   React
 -   SocketIO Library
-
+## Not issues:
+- Slow on handle from 10_000. Browser got a lot of sockets event with huge data => Lag and slow. Event the backend job already finished.
 ## Required Software
 
 -   [NodeJS@18.18.2](https://nodejs.org/en)
 -   [node-gyp@8.2.0](https://www.npmjs.com/package/node-gyp)
 -   [C++@11.4.0](https://en.cppreference.com/w/cpp/11)
+-   [C++ Boost.org](https://www.boost.org/)
 
 ## Install
 
@@ -22,6 +24,7 @@ This project only tested on Linux - Ubuntu@22.04
 -   Install related package
 
 ```bash
+./install_boost.sh
 npm install
 ```
 
