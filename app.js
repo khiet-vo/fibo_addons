@@ -55,6 +55,7 @@ function runWorker(number, socketId) {
     worker.on('message', (result) => {
         io.to(socketId).emit('receive_number', { value: result });
     });
+    worker.on('error', (error) => console.error(`Worker error: ${error}`));
     worker.on('exit', (code) => {
         console.log('🚀 ~ file: app.js:97 ~ worker.on ~ code:', code);
         io.to(socketId).emit('receive_number', { isFinished: true });
