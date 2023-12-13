@@ -69,7 +69,7 @@ function App() {
     const isDisabled = !!errorConnect || !!error || isLoading;
     return (
         <div className="App">
-            <h1 className="title">Hello React ft. Million</h1>
+            <h1 className="title">Fibonacci streaming</h1>
             {errorConnect && (
                 <label className="error">
                     Connection Error:{errorConnect} {hostWs}
@@ -87,6 +87,7 @@ function App() {
                             id="input"
                             type="number"
                             name="input"
+                            placeholder='please enter positive integer'
                             onChange={onChangeInput}
                             disabled={isLoading}
                         />
