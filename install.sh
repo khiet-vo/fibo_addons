@@ -41,8 +41,11 @@ install_npm_client
 
 if [ "$OS" == "Linux" ]; then
     install_boost_linux
+    sudo apt-get install libgmp3-dev
+    
     elif [ "$OS" == "Darwin" ]; then
     install_boost_mac
+    brew install gmp
 else
     echo "Unsupported operating system: $OS"
 fi
