@@ -57,8 +57,6 @@ function runWorker(number, socketId) {
     });
     worker.on('exit', (code) => {
         console.log('🚀 ~ file: app.js:97 ~ worker.on ~ code:', code);
-        setTimeout(() => {
-            io.to(socketId).emit('receive_number', { isFinished: true });
-        }, 1000);
+        io.to(socketId).emit('receive_number', { isFinished: true });
     });
 }
