@@ -37,6 +37,7 @@ This project only tested on Linux - Ubuntu@22.04
 ## Required Software
 
 -   Ubuntu or Linux or MacOS
+-   Git
 -   [NodeJS@18.18.2](https://nodejs.org/en)
 -   [node-gyp@8.2.0](https://www.npmjs.com/package/node-gyp)
 -   [C++@11.4.0](https://en.cppreference.com/w/cpp/11)
@@ -59,9 +60,12 @@ npm install
 
 ## How to run
 
-Built ENV:
+Build version:
 
 -   Start from root folder of project.
+```bash
+./build.sh
+```
 -   Start normal with node
 
 ```bash
