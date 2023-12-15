@@ -5,6 +5,8 @@ const path = require('path');
 const { Server } = require('socket.io');
 const { Worker } = require('worker_threads');
 
+const { handleSSE } = require('./sse');
+
 const clientURL = 'http://localhost:3000';
 const port = 3001;
 const LIMIT_NUMBER = process.env.LIMIT_NUMBER || 1_000_000;
@@ -12,14 +14,16 @@ const LIMIT_NUMBER = process.env.LIMIT_NUMBER || 1_000_000;
 const app = express();
 
 // Middleware
+app.use(cors({ origin: ['http://localhost:3000'] }));
 app.use(bodyParser.json({ type: 'application/json' }));
 
 // Routes
+app.get('/fibonacci_nth/:number', handleSSE);
+
 app.use(express.static(path.resolve(__dirname, './public')));
 app.get('*', (_req, res) => {
     res.sendFile(path.resolve(__dirname, './public', 'index.html'));
 });
-
 
 const server = app.listen(port, () => {
     console.log('Fibo App running on port:' + port);
