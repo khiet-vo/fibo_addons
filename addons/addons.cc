@@ -1,13 +1,11 @@
 #include <napi.h>
-
 #include <boost/multiprecision/gmp.hpp>
 
 using namespace Napi;
 using namespace boost::multiprecision;
 
-String mpzIntToNapiString(const Env& env, const mpz_int& mpzInt) {
-  std::string stdStr = mpzInt.str();
-  return String::New(env, stdStr);
+void mpzIntToNapiString(const Env& env, const mpz_int& mpzInt, std::string& str) {
+  str = mpzInt.str();
 }
 
 Value CallEmitFibo(const CallbackInfo& info) {
@@ -21,25 +19,21 @@ Value CallEmitFibo(const CallbackInfo& info) {
     throw TypeError::New(env, "Expected second arg to be function");
   }
 
-  Function emit = info[1].As<Function>();
-  int count = info[0].As<Number>().Int32Value();
+  const Function& emit = info[1].As<Function>();
+  int count = info[0].As<Number>().ToNumber().Int32Value();
 
   emit.Call({String::New(env, "start")});
 
   mpz_int tmp, a = 0, b = 1;
+  std::string str;
 
-  //   int start = clock();
   for (int i = 0; i < count; i++) {
     tmp = a;
     a = b;
     b = tmp + a;
-    emit.Call({String::New(env, "data"), mpzIntToNapiString(env, a)});
+    mpzIntToNapiString(env, a, str);
+    emit.Call({String::New(env, "data"), String::New(env, std::move(str))});
   }
-  //   int end = clock();
-  //   std::cout << "it took " << end - start << "ticks, or "
-  //             << ((float)end - start) / CLOCKS_PER_SEC << "seconds." <<
-  //             std::endl;
-
   emit.Call({String::New(env, "end")});
   return String::New(env, "OK");
 }
@@ -50,12 +44,5 @@ Object Init(Env env, Object exports) {
 
   return exports;
 }
-
-// function use to validate the number of fibonacci nth
-// mpz_int fibonacciNTH(int n) {
-//   const mpf_float phi = (1 + sqrt(mpf_float(5))) / 2;
-//   mpf_float fib = floor(pow(phi, n) / sqrt(mpf_float(5)) + mpf_float(0.5));
-//   return fib.convert_to<mpz_int>();
-// }
 
 NODE_API_MODULE(addons, Init)
