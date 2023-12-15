@@ -18,6 +18,8 @@ const handleSSE = (req, res) => {
     } catch (error) {
         console.error(error);
     }
+    console.log('🚀 ~ file: sse.js:36 ~ workerSSE.Start ~ start:');
+
     res.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
@@ -31,6 +33,8 @@ const handleSSE = (req, res) => {
     worker.on('error', (error) => console.error(`Worker error: ${error}`));
     worker.on('exit', (code) => {
         // io.to(socketId).emit('receive_number', { isFinished: true });
+        console.log('🚀 ~ file: sse.js:36 ~ workerSSE.on ~ exit:', code);
+
         emitSSE(res, 'finished');
     });
     // emitSSE(res, id, new Date().toLocaleTimeString());
