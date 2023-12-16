@@ -21,6 +21,10 @@ app.use(bodyParser.json({ type: 'application/json' }));
 app.get('/fibonacci_nth/:number', handleSSE);
 
 app.use(express.static(path.resolve(__dirname, './public')));
+
+app.get('/index2', (_req, res) => {
+    res.sendFile(path.resolve(__dirname, './public', 'index2.html'));
+});
 app.get('*', (_req, res) => {
     res.sendFile(path.resolve(__dirname, './public', 'index.html'));
 });
@@ -36,12 +40,20 @@ const io = new Server(server, {
         methods: ['GET', 'POST'],
     },
 });
+// const listWorkers = [];
 
 io.on('connection', (socket) => {
     socket.on('sendNumber', (data) => {
         runWorker(data.value, socket.id);
     });
+    // socket.on('disconnect', () => {
+    //     console.log('disco socket.id ', socket.id);
+    //     if (listWorkers[socket.id]) {
+    //         listWorkers[socket.id].terminate();
+    //     }
+    // });
 });
+
 function runWorker(number, socketId) {
     try {
         number = parseInt(number);
@@ -58,6 +70,7 @@ function runWorker(number, socketId) {
         return;
     }
     const worker = new Worker('./worker.js', { workerData: number });
+    // listWorkers[socketId] = worker;
     worker.on('message', (result) => {
         io.to(socketId).emit('receive_number', { value: result });
     });
